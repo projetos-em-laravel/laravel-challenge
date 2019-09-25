@@ -182,6 +182,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Configuration L5 Repository...
+         */
+        App\Providers\RepositoryServiceProvider::class,
+
     ],
 
     /*
