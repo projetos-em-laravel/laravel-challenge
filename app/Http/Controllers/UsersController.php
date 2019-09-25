@@ -10,6 +10,7 @@ use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Repositories\UserRepository;
+use App\Services\UserService;
 use App\Validators\UserValidator;
 
 /**
@@ -22,10 +23,11 @@ class UsersController extends Controller
     protected $repository;
     protected $validator;
 
-    public function __construct(UserRepository $repository, UserValidator $validator)
+    public function __construct(UserRepository $repository, UserValidator $validator, UserService $service)
     {
         $this->repository = $repository;
         $this->validator  = $validator;
+        $this->service    = $service;
     }
 
 
@@ -56,7 +58,6 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = $this->repository->find($id);
-
         return view('users.edit', compact('user'));
     }
 
@@ -72,35 +73,9 @@ class UsersController extends Controller
      */
     public function update(UserUpdateRequest $request, $id)
     {
-        try {
+        $returnService = $this->service->update($request->all(), $id);
 
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            $user = $this->repository->update($request->all(), $id);
-
-            $response = [
-                'message' => 'User updated.',
-                'data'    => $user->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-
-            if ($request->wantsJson()) {
-
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        return $returnService;
     }
 
     public function destroy($id){   }
