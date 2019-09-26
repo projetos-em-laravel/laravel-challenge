@@ -30,32 +30,18 @@ class UserService{
             $user = $this->repository->update([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => bcrypt($data['new_password']),
+                'password' => bcrypt($data['password']),
             ], $id);
 
             $response = [
-                'message' => 'User updated.',
+                'message' => 'Profile changed successfully !',
                 'data'    => $user->toArray(),
-            ];
-            /*
-            if ($data->wantsJson()) {
-
-                return response()->json($response);
-            }
-            */
-            $returnService = redirect()->back()->with('message', $response['message']);
+            ]; 
+        
+            $returnService = redirect()->back()->with('success', $response['message']);
             return $returnService;
         } catch (ValidatorException $e) {
 
-            /*
-            if ($data->wantsJson()) {
-
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-            */
             $returnService = redirect()->back()->withErrors($e->getMessageBag())->withInput();
             return $returnService;
         }
