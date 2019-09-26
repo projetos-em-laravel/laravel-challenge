@@ -30,7 +30,7 @@ class UserService{
             $user = $this->repository->update([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => bcrypt($data['password']),
+                'password' => bcrypt($data['new_password']),
             ], $id);
 
             $response = [
