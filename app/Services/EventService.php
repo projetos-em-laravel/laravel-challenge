@@ -6,6 +6,7 @@ use App\Repositories\EventRepository;
 use App\Validators\EventValidator;
 use App\Models\Event;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class EventService{
 

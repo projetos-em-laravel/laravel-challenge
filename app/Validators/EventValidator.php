@@ -18,7 +18,17 @@ class EventValidator extends LaravelValidator
      * @var array
      */
     protected $rules = [
-        ValidatorInterface::RULE_CREATE => [],
-        ValidatorInterface::RULE_UPDATE => [],
+        ValidatorInterface::RULE_CREATE => [
+            'title'         => 'required|string|max:255',
+            'description'   => 'required|string|max:255',
+            'start_datetime' => 'required|date',
+            'end_datetime' => 'required|date|after_or_equal:start_datetime',
+        ],
+        ValidatorInterface::RULE_UPDATE => [
+            'title'         => 'required|string|max:255',
+            'description'   => 'required|string|max:255',
+            'start_datetime' => 'required|date',
+            'end_datetime' => 'required|date|after_or_equal:start_datetime',
+        ],
     ];
 }

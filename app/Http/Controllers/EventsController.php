@@ -23,19 +23,10 @@ use Illuminate\Support\Facades\Auth;
  */
 class EventsController extends Controller
 {
-    /**
-     * @var EventRepository
-     */
     protected $repository;
     protected $validator;
     protected $service;
 
-    /**
-     * EventsController constructor.
-     *
-     * @param EventRepository $repository
-     * @param EventValidator $validator
-     */
     public function __construct(EventRepository $repository, EventValidator $validator, EventService $service)
     {
         $this->repository = $repository;
@@ -43,11 +34,6 @@ class EventsController extends Controller
         $this->service    = $service;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $eventsToday = $this->service->eventsToday(Auth::user()->id);
@@ -59,19 +45,12 @@ class EventsController extends Controller
         return view('events.index')->with(['eventsToday' => $eventsToday , 'eventsNextFiveDays' => $eventsNextFiveDays, 'eventsAll' => $eventsAll]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  EventCreateRequest $request
-     *
-     * @return \Illuminate\Http\Response
-     *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
-     */
+
     public function store(EventCreateRequest $request)
     {
+        
         try {
-
+           
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 
             $event = $this->repository->create($request->all());
@@ -81,31 +60,14 @@ class EventsController extends Controller
                 'data'    => $event->toArray(),
             ];
 
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
+            return redirect()->back()->with('success', $response['message']);
         } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
+            
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function show($id)
     {
         $event = $this->repository->find($id);
@@ -120,13 +82,7 @@ class EventsController extends Controller
         return view('events.show', compact('event'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $event = $this->repository->find($id);
@@ -134,16 +90,11 @@ class EventsController extends Controller
         return view('events.edit', compact('event'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  EventUpdateRequest $request
-     * @param  string            $id
-     *
-     * @return Response
-     *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
-     */
+    public function create()
+    {
+        return view('events.create');    
+    }
+ 
     public function update(EventUpdateRequest $request, $id)
     {
         try {
@@ -157,21 +108,8 @@ class EventsController extends Controller
                 'data'    => $event->toArray(),
             ];
 
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
+            return redirect()->back()->with('success', $response['message']);
         } catch (ValidatorException $e) {
-
-            if ($request->wantsJson()) {
-
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
 
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
         }

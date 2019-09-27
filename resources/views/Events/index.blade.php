@@ -4,6 +4,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            <div class="panel panel-default">
+                <a href="{{ route('events.create') }}" class="btn btn-primary">Create</a>
+            </div>    
             <!--Dashboard Today events-->
             <div class="panel panel-default">
                 <div class="panel-heading">Today events</div>
@@ -27,8 +30,8 @@
                                         <td>{{$eventToday->start_datetime}}</td>
                                         <td>{{$eventToday->end_datetime}}</td>
                                         <td>
-                                            <a href="" class="btn btn-primary">Edit</a>
-                                            <a href="" class="btn btn-danger">Delete</a>
+                                            <a href="{{ route('events.edit', $eventToday->id) }}" class="btn btn-primary">Edit</a>
+                                            <a href="{{ route('events.destroy', $eventToday->id) }}" class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
