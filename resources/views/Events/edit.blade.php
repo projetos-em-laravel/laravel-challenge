@@ -44,29 +44,57 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('start_datetime') ? ' has-error' : '' }}">
-                            <label for="start_datetime" class="col-md-4 control-label">Start datetime</label>
+                        <div class="form-group{{ $errors->has('start_date') ? ' has-error' : '' }}">
+                            <label for="start_date" class="col-md-4 control-label">Start datetime</label>
 
                             <div class="col-md-6">
-                                <input id="start_datetime" type="datetime-local" class="form-control" name="start_datetime" value="{{ old('start_datetime', $event->start_datetime) }}" required>
+                                <input id="start_date" type="date" class="form-control" name="start_date" value="{{ old('start_date', $event->start_date) }}" required>
 
-                                @if ($errors->has('start_datetime'))
+                                @if ($errors->has('start_date'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('start_datetime') }}</strong>
+                                        <strong>{{ $errors->first('start_date') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('end_datetime') ? ' has-error' : '' }}">
-                            <label for="end_datetime" class="col-md-4 control-label">End datetime</label>
+                        <div class="form-group{{ $errors->has('start_time') ? ' has-error' : '' }}">
+                            <label for="start_time" class="col-md-4 control-label">Start time</label>
 
                             <div class="col-md-6">
-                                <input id="end_datetime" type="datetime-local" class="form-control" name="end_datetime" value="{{ old('end_datetime', $event->end_datetime) }}" required>
+                                <input id="start_time" type="time" class="form-control" name="start_time" value="{{ old('start_time', $event->start_time) }}" required>
 
-                                @if ($errors->has('end_datetime'))
+                                @if ($errors->has('start_time'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('end_datetime') }}</strong>
+                                        <strong>{{ $errors->first('start_time') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('end_date') ? ' has-error' : '' }}">
+                            <label for="end_date" class="col-md-4 control-label">End datetime</label>
+
+                            <div class="col-md-6">
+                                <input id="end_date" type="date" class="form-control" name="end_date" value="{{ old('end_date', $event->end_date) }}" required>
+
+                                @if ($errors->has('end_date'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('end_date') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('end_time') ? ' has-error' : '' }}">
+                            <label for="end_time" class="col-md-4 control-label">End time</label>
+
+                            <div class="col-md-6">
+                                <input id="end_time" type="time" class="form-control" name="end_time" value="{{ old('end_time', $event->end_time) }}" required>
+
+                                @if ($errors->has('end_time'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('end_time') }}</strong>
                                     </span>
                                 @endif
                             </div>

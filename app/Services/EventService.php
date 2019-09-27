@@ -20,7 +20,7 @@ class EventService{
     }
 
     public function eventsToday($data){
-        $eventsToday = Event::whereDate('start_datetime', Carbon::today())
+        $eventsToday = Event::whereDate('start_date', Carbon::today())
                         ->where('user_id', $data)
                         ->get();
         
@@ -28,8 +28,8 @@ class EventService{
     }
 
     public function eventsNextFiveDays($data){
-        $eventsNextFiveDays = Event::whereDate('start_datetime', '<=', Carbon::today()->addDay(5))
-                        ->whereDate('start_datetime', '>=', Carbon::today())
+        $eventsNextFiveDays = Event::whereDate('start_date', '<=', Carbon::today()->addDay(5))
+                        ->whereDate('start_date', '>=', Carbon::today())
                         ->where('user_id', $data)
                         ->get();   
         return $eventsNextFiveDays;   

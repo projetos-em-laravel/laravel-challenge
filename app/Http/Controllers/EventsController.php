@@ -47,13 +47,18 @@ class EventsController extends Controller
 
 
     public function store(EventCreateRequest $request)
-    {
+    {   
+        //Getting the user logged in and transforming into array
+        $user_logged = array("user_id" => Auth::user()->id);
+
+        //Concatenating Request array with the logged in user array
+        $requestEvent = array_merge($request->all(), $user_logged);
         
         try {
            
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
+            $this->validator->with($requestEvent)->passesOrFail(ValidatorInterface::RULE_CREATE);
 
-            $event = $this->repository->create($request->all());
+            $event = $this->repository->create($requestEvent);
 
             $response = [
                 'message' => 'Event created.',
@@ -62,7 +67,7 @@ class EventsController extends Controller
 
             return redirect()->back()->with('success', $response['message']);
         } catch (ValidatorException $e) {
-            
+
             return redirect()->back()->withErrors($e->getMessageBag())->withInput();
         }
     }

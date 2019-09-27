@@ -22,7 +22,7 @@ class Event extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = ['title', 'description', 'start_datetime', 'end_datetime'];
+    protected $fillable = ['user_id', 'title', 'description', 'start_date', 'end_date', 'start_time', 'end_time'];
 
     public function User(){
         return $this-HasOne('Event::class');

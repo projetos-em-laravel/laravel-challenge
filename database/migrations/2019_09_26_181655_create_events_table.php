@@ -20,8 +20,10 @@ class CreateEventsTable extends Migration
 			$table->increments('id');
 			$table->string('title', 80);
 			$table->string('description', 254);
-			$table->dateTime('start_datetime');
-			$table->datetime('end_datetime');
+			$table->date('start_date');
+			$table->date('end_date');
+			$table->time('start_time');
+			$table->time('end_time');
 			$table->timestamps();
 
 			$table->integer('user_id')->unsigned();
