@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use Prettus\Validator\Contracts\ValidatorInterface;
-use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\EventCreateRequest;
 use App\Http\Requests\EventUpdateRequest;
-use App\Models\Event;
+use App\Mail\SendInvitation;
 use App\Repositories\EventRepository;
 use App\Services\EventService;
 use App\Validators\EventValidator;
-use Carbon\Carbon;
+use Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Response;
 
 /**
  * Class EventsController.
@@ -45,44 +43,21 @@ class EventsController extends Controller
         return view('events.index')->with(['eventsToday' => $eventsToday , 'eventsNextFiveDays' => $eventsNextFiveDays, 'eventsAll' => $eventsAll]);
     }
 
+    public function create()
+    {
+        return view('events.create');    
+    }
 
     public function store(EventCreateRequest $request)
     {   
-        //Getting the user logged in and transforming into array
-        $user_logged = array("user_id" => Auth::user()->id);
-
-        //Concatenating Request array with the logged in user array
-        $requestEvent = array_merge($request->all(), $user_logged);
-        
-        try {
-           
-            $this->validator->with($requestEvent)->passesOrFail(ValidatorInterface::RULE_CREATE);
-
-            $event = $this->repository->create($requestEvent);
-
-            $response = [
-                'message' => 'Event created.',
-                'data'    => $event->toArray(),
-            ];
-
-            return redirect()->back()->with('success', $response['message']);
-        } catch (ValidatorException $e) {
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        $returnService = $this->service->store($request);
+        return $returnService;
     }
 
  
     public function show($id)
     {
         $event = $this->repository->find($id);
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $event,
-            ]);
-        }
 
         return view('events.show', compact('event'));
     }
@@ -91,54 +66,46 @@ class EventsController extends Controller
     public function edit($id)
     {
         $event = $this->repository->find($id);
-
+        
         return view('events.edit', compact('event'));
-    }
-
-    public function create()
-    {
-        return view('events.create');    
     }
  
     public function update(EventUpdateRequest $request, $id)
     {
-        try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            $event = $this->repository->update($request->all(), $id);
-
-            $response = [
-                'message' => 'Event updated.',
-                'data'    => $event->toArray(),
-            ];
-
-            return redirect()->back()->with('success', $response['message']);
-        } catch (ValidatorException $e) {
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        $returnService = $this->service->update($request, $id);
+        return $returnService;
     }
 
+    public function send(Request $request)
+    {
+        $title        = $request->title;
+        $description  = $request->description;
+        $start_date   = $request->start_date;
+        $start_time   = $request->start_time;
+        $end_date     = $request->end_date;
+        $end_time     = $request->end_time;
+        $email        = $request->email;
+        $email_body   = $request->email_body;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
+        $rules = array(
+            'email' => 'required|email',
+            'email_body' => 'required',
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        
+        // Enviando o e-mail
+        Mail::to($email)->send(new SendInvitation( $title, $description, $start_date, $start_time, $end_date, $end_time, $email, $email_body ));
+
+        if ($validator->fails())
+        return response::json(array('errors'=> $validator->getMessageBag()->toarray()));
+
+
+    }
+
     public function destroy($id)
     {
         $deleted = $this->repository->delete($id);
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'message' => 'Event deleted.',
-                'deleted' => $deleted,
-            ]);
-        }
 
         return redirect()->back()->with('message', 'Event deleted.');
     }

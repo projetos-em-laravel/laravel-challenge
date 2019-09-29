@@ -27,4 +27,8 @@ class Event extends Model implements Transformable
     public function User(){
         return $this-HasOne('Event::class');
     }
+
+    public function getStartTime($value){
+        return Carbon::createFromFormat('H:i', $value);
+    }
 }

@@ -104,8 +104,12 @@
                                             <td>{{$eventAll->start_date}} at {{$eventAll->start_time}}</td>
                                             <td>{{$eventAll->end_date}} at {{$eventAll->end_time}}</td>
                                             <td>
+                                                <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-success eventSend" data-toggle="modal" data-target="#newSend" data-title='{{$eventAll->title}}' data-description='{{$eventAll->description}}' data-startdate='{{$eventAll->start_date}}' data-starttime='{{$eventAll->start_time}}' data-enddate='{{$eventAll->end_date}}' data-endtime='{{$eventAll->end_time}}' >
+                                                    Send invitation
+                                                </button>
                                                 <a href="{{ route('events.edit', $eventAll->id) }}" class="btn btn-primary">Edit</a>
-                                            <a href="{{ route('events.destroy', $eventAll->id) }}" class="btn btn-danger">Delete</a>
+                                                <a href="{{ route('events.destroy', $eventAll->id) }}" class="btn btn-danger">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -120,6 +124,8 @@
         </div>
     </div>
 </div>
+
+@include('events.modals.modalNewSend')
 @endsection
 
 @push('css')
@@ -128,6 +134,51 @@
 @endpush
 
 @push('scripts')
+<script>
+// Edit a post
+$(document).on('click', '.eventSend', function() {
+            $('#titleSend').text($(this).data('title'));
+            $('#descriptionSend').text($(this).data('description'));
+            $('#startDateSend').text($(this).data('startdate'));
+            $('#startTimeSend').text($(this).data('starttime'));
+            $('#endDateSend').text($(this).data('enddate'));
+            $('#endTimeSend').text($(this).data('endtime'));
+        });
+</script>
+<script type="text/javascript" src="{{ asset('vendor/js/jquery.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/js/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('custom/js/datatables.js')}}"></script>
+
+
+
+<script>
+
+        $('.modal-footer').on('click', '.sendEmail', function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ route('events.send')}}",
+                        data: {
+                            '_token'        : $('input[name=_token]').val(),
+                            'title'         : $(this).data('title'),
+                            'description'   : $(this).data('description'),
+                            'start_date'    : $(this).data('startdate'),
+                            'start_time'    : $(this).data('starttime'),
+                            'end_date'      : $(this).data('enddate'),
+                            'end_time'      : $(this).data('endtime'),
+                            'email'         : $('input[name=email]').val(),
+                            'email_body'    : $('textarea[name=emailBody]').val(), 
+                        },
+                        success: function(data){
+                            if((data.errors)) {
+                                $('.error').removeClass('hidden');
+                                $('.error').text(data.errors.title);
+
+                            }else{
+                                $('.error').remove();
+                            }
+                        }
+                        
+                    });
+                });   
+        </script>
 @endpush

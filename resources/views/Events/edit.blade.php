@@ -62,7 +62,7 @@
                             <label for="start_time" class="col-md-4 control-label">Start time</label>
 
                             <div class="col-md-6">
-                                <input id="start_time" type="time" class="form-control" name="start_time" value="{{ old('start_time', $event->start_time) }}" required>
+                                <input id="start_time" type="time" class="form-control" name="start_time" value="{{ old('start_time', date( 'H:i' , strtotime($event->start_time)) ) }}" required>
 
                                 @if ($errors->has('start_time'))
                                     <span class="help-block">
@@ -73,7 +73,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('end_date') ? ' has-error' : '' }}">
-                            <label for="end_date" class="col-md-4 control-label">End datetime</label>
+                            <label for="end_date" class="col-md-4 control-label">End date</label>
 
                             <div class="col-md-6">
                                 <input id="end_date" type="date" class="form-control" name="end_date" value="{{ old('end_date', $event->end_date) }}" required>
@@ -90,7 +90,7 @@
                             <label for="end_time" class="col-md-4 control-label">End time</label>
 
                             <div class="col-md-6">
-                                <input id="end_time" type="time" class="form-control" name="end_time" value="{{ old('end_time', $event->end_time) }}" required>
+                                <input id="end_time" type="time" class="form-control" name="end_time" value="{{ old('end_time', date( 'H:i' , strtotime($event->end_time)) ) }}" required>
 
                                 @if ($errors->has('end_time'))
                                     <span class="help-block">
