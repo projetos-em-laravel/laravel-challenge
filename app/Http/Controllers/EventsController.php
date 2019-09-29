@@ -94,19 +94,22 @@ class EventsController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
         
-        // Enviando o e-mail
-        Mail::to($email)->send(new SendInvitation( $title, $description, $start_date, $start_time, $end_date, $end_time, $email, $email_body ));
-
-        if ($validator->fails())
-        return response::json(array('errors'=> $validator->getMessageBag()->toarray()));
+        if ($validator->fails()){
+            return response::json(array('errors'=> $validator->getMessageBag()->toarray()));
+        }else{
+            // Enviando o e-mail
+            Mail::to($email)->send(new SendInvitation( $title, $description, $start_date, $start_time, $end_date, $end_time, $email, $email_body ));
+            return response::json(array('success'=> 'Email successfully sent!'));
+        }
 
 
     }
 
     public function destroy($id)
     {
-        $deleted = $this->repository->delete($id);
+        $event = $this->repository->find($id);
+        $event->delete();
 
-        return redirect()->back()->with('message', 'Event deleted.');
+        return response::json($event);
     }
 }

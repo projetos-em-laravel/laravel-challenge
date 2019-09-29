@@ -3,22 +3,12 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Send invitation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Send invitation</h4>
             </div>
             <div class="modal-body">
 
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                <div class="success alert alert-success hidden"></div>
 
                 <ul class="list-group">
                     <li class="list-group-item active"><h4>Title: <span id="titleSend"></span></h4> </li>
@@ -32,17 +22,19 @@
                     <div class="form-group">
                         <label for="email">Email:</label>
                         <input type="email" name="email" id="email" rows="5" class="form-control" required>
+                        <p class="errorEmail text-center alert alert-danger hidden"></p>
                     </div> 
                     <div class="form-group">
                         <label for="emailBody">Email body:</label>
                         <textarea name="emailBody" id="emailBody" rows="5" class="form-control" required></textarea>
+                        <p class="errorBody text-center alert alert-danger hidden"></p>
                     </div> 
                 </form>       
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 @if(isset($eventAll))
-                    <button class="btn btn-primary sendEmail" data-title='{{$eventAll->title}}' data-description='{{$eventAll->description}}' data-startdate='{{$eventAll->start_date}}' data-starttime='{{$eventAll->start_time}}' data-enddate='{{$eventAll->end_date}}' data-endtime='{{$eventAll->end_time}}'>Send invitation</button>
+                    <button class="btn btn-primary sendEmail" id="sendEmail" name="sendEmail" data-title='{{$eventAll->title}}' data-description='{{$eventAll->description}}' data-startdate='{{$eventAll->start_date}}' data-starttime='{{$eventAll->start_time}}' data-enddate='{{$eventAll->end_date}}' data-endtime='{{$eventAll->end_time}}'>Send invitation</button>
                 @endif
             </div>
         </div>

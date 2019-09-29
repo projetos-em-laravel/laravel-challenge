@@ -33,14 +33,20 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($eventsToday as $eventToday)
-                                        <tr>
+                                        <tr class="{{'itemEvent'.$eventToday->id}}">
                                             <td scope="row">{{$eventToday->title}}</td>
                                             <td>{{$eventToday->description}}</td>
                                             <td>{{$eventToday->start_date}} at {{$eventToday->start_time}}</td>
                                             <td>{{$eventToday->end_date}} at {{$eventToday->end_time}}</td>
                                             <td>
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-success eventSend" data-toggle="modal" data-target="#newSend" data-title='{{$eventToday->title}}' data-description='{{$eventToday->description}}' data-startdate='{{$eventToday->start_date}}' data-starttime='{{$eventToday->start_time}}' data-enddate='{{$eventToday->end_date}}' data-endtime='{{$eventToday->end_time}}' >
+                                                    Send invitation
+                                                </button>
                                                 <a href="{{ route('events.edit', $eventToday->id) }}" class="btn btn-primary">Edit</a>
-                                                <a href="{{ route('events.destroy', $eventToday->id) }}" class="btn btn-danger">Delete</a>
+                                                <button type="button" class="btn btn-danger deleteEventForModal" data-toggle="modal" data-target="#deleteEvent" data-id='{{$eventToday->id}}' data-title='{{$eventToday->title}}'>
+                                                    Delete
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -66,14 +72,20 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($eventsNextFiveDays as $eventNextFiveDays)
-                                        <tr>
+                                        <tr class="{{'itemEvent'.$eventNextFiveDays->id}}">
                                             <td scope="row">{{$eventNextFiveDays->title}}</td>
                                             <td>{{$eventNextFiveDays->description}}</td>
                                             <td>{{$eventNextFiveDays->start_date}} at {{$eventNextFiveDays->start_time}}</td>
                                             <td>{{$eventNextFiveDays->end_date}} at {{$eventNextFiveDays->end_time}}</td>
                                             <td>
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-success eventSend" data-toggle="modal" data-target="#newSend" data-title='{{$eventNextFiveDays->title}}' data-description='{{$eventNextFiveDays->description}}' data-startdate='{{$eventNextFiveDays->start_date}}' data-starttime='{{$eventNextFiveDays->start_time}}' data-enddate='{{$eventNextFiveDays->end_date}}' data-endtime='{{$eventNextFiveDays->end_time}}' >
+                                                    Send invitation
+                                                </button>
                                                 <a href="{{ route('events.edit', $eventNextFiveDays->id) }}" class="btn btn-primary">Edit</a>
-                                                <a href="{{ route('events.destroy', $eventNextFiveDays->id) }}" class="btn btn-danger">Delete</a>
+                                                <button type="button" class="btn btn-danger deleteEventForModal" data-toggle="modal" data-target="#deleteEvent" data-id='{{$eventNextFiveDays->id}}' data-title='{{$eventNextFiveDays->title}}'>
+                                                    Delete
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -98,18 +110,20 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($eventsAll as $eventAll)
-                                        <tr>
+                                        <tr class="{{'itemEvent'.$eventAll->id}}">
                                             <td scope="row">{{$eventAll->title}}</td>
                                             <td>{{$eventAll->description}}</td>
                                             <td>{{$eventAll->start_date}} at {{$eventAll->start_time}}</td>
                                             <td>{{$eventAll->end_date}} at {{$eventAll->end_time}}</td>
                                             <td>
                                                 <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-success eventSend" data-toggle="modal" data-target="#newSend" data-title='{{$eventAll->title}}' data-description='{{$eventAll->description}}' data-startdate='{{$eventAll->start_date}}' data-starttime='{{$eventAll->start_time}}' data-enddate='{{$eventAll->end_date}}' data-endtime='{{$eventAll->end_time}}' >
+                                                <button type="button" class="btn btn-success eventSend" data-toggle="modal" data-target="#newSend" data-title='{{$eventAll->title}}' data-description='{{$eventAll->description}}' data-startdate='{{$eventAll->start_date}}' data-starttime='{{$eventAll->start_time}}' data-enddate='{{$eventAll->end_date}}' data-endtime='{{$eventAll->end_time}}' >
                                                     Send invitation
                                                 </button>
                                                 <a href="{{ route('events.edit', $eventAll->id) }}" class="btn btn-primary">Edit</a>
-                                                <a href="{{ route('events.destroy', $eventAll->id) }}" class="btn btn-danger">Delete</a>
+                                                <button type="button" class="btn btn-danger deleteEventForModal" data-toggle="modal" data-target="#deleteEvent" data-id='{{$eventAll->id}}' data-title='{{$eventAll->title}}'>
+                                                    Delete
+                                                </button>                                            
                                             </td>
                                         </tr>
                                     @endforeach
@@ -126,59 +140,47 @@
 </div>
 
 @include('events.modals.modalNewSend')
+@include('events.modals.modalDeleteEvent')
 @endsection
 
 @push('css')
+<!--Datatable need this link extern-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href=" {{ asset('vendor/css/dataTables.bootstrap.min.css') }}">
 @endpush
 
 @push('scripts')
-<script>
-// Edit a post
-$(document).on('click', '.eventSend', function() {
-            $('#titleSend').text($(this).data('title'));
-            $('#descriptionSend').text($(this).data('description'));
-            $('#startDateSend').text($(this).data('startdate'));
-            $('#startTimeSend').text($(this).data('starttime'));
-            $('#endDateSend').text($(this).data('enddate'));
-            $('#endTimeSend').text($(this).data('endtime'));
-        });
-</script>
+<!-- Datatables  -->
 <script type="text/javascript" src="{{ asset('vendor/js/jquery.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/js/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('custom/js/datatables.js')}}"></script>
 
-
-
+<!-- Send Inite email-->
+<script type="text/javascript" src="{{ asset('custom/js/sendEmail.js') }}"></script>
+        
 <script>
+    var id;
+ $(document).on('click', '.deleteEventForModal', function() { 
+    
+        $('#eventId').text($(this).data('id'));
+        $('#title').text($(this).data('title'));
+        id = $(this).data('id');
+        
+});
 
-        $('.modal-footer').on('click', '.sendEmail', function() {
-                    $.ajax({
-                        type: 'POST',
-                        url: "{{ route('events.send')}}",
-                        data: {
-                            '_token'        : $('input[name=_token]').val(),
-                            'title'         : $(this).data('title'),
-                            'description'   : $(this).data('description'),
-                            'start_date'    : $(this).data('startdate'),
-                            'start_time'    : $(this).data('starttime'),
-                            'end_date'      : $(this).data('enddate'),
-                            'end_time'      : $(this).data('endtime'),
-                            'email'         : $('input[name=email]').val(),
-                            'email_body'    : $('textarea[name=emailBody]').val(), 
-                        },
-                        success: function(data){
-                            if((data.errors)) {
-                                $('.error').removeClass('hidden');
-                                $('.error').text(data.errors.title);
-
-                            }else{
-                                $('.error').remove();
-                            }
-                        }
-                        
-                    });
-                });   
-        </script>
+$('.modal-footer').on('click', '.deleteEventInModal', function() {
+        
+        
+        $.ajax({
+            type: 'DELETE',
+            url: '/events/' + id,
+            data: {
+                '_token': $('input[name=_token]').val(),
+            },
+            success: function(data) {
+                $('.itemEvent' + data['id']).remove();
+            }
+        });
+    });
+</script>
 @endpush
