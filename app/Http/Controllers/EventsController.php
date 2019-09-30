@@ -78,30 +78,8 @@ class EventsController extends Controller
 
     public function send(Request $request)
     {
-        $title        = $request->title;
-        $description  = $request->description;
-        $start_date   = $request->start_date;
-        $start_time   = $request->start_time;
-        $end_date     = $request->end_date;
-        $end_time     = $request->end_time;
-        $email        = $request->email;
-        $email_body   = $request->email_body;
-
-        $rules = array(
-            'email' => 'required|email',
-            'email_body' => 'required',
-        );
-
-        $validator = Validator::make($request->all(), $rules);
-        
-        if ($validator->fails()){
-            return response::json(array('errors'=> $validator->getMessageBag()->toarray()));
-        }else{
-            // Enviando o e-mail
-            Mail::to($email)->send(new SendInvitation( $title, $description, $start_date, $start_time, $end_date, $end_time, $email, $email_body ));
-            return response::json(array('success'=> 'Email successfully sent!'));
-        }
-
+        $returnService = $this->service->send($request);
+        return $returnService;
 
     }
 
