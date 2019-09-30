@@ -164,6 +164,11 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
+         * Import CSV...
+         */
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
+        /*
          * L5 Repository...
          */
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
@@ -235,6 +240,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        /*
+        * Import CSV...
+        */
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

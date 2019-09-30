@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     configurationDatatable = {
     dom: //'Bfrtip',
          "<'row'<'form-inline' <'col-sm-offset-5'B>>>"
@@ -21,14 +22,6 @@ $(document).ready(function() {
             text: "<i>XLSX</i>",
             titleAttr: 'Export Excel',
             title: 'List today events',
-            exportOptions: {
-                columns: [ 0, 1, 2, 3]
-            }
-        },
-        {
-            extend: 'csvHtml5',
-            text: "<i>CSV</i>",
-            titleAttr: 'Export CSV',
             exportOptions: {
                 columns: [ 0, 1, 2, 3]
             }

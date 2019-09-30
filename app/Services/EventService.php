@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInvitation;
 use Validator;
 use Response;
+use Excel;
 
 class EventService{
 
@@ -116,6 +117,40 @@ class EventService{
             // Enviando o e-mail
             Mail::to($email)->send(new SendInvitation( $title, $description, $start_date, $start_time, $end_date, $end_time, $email, $email_body ));
             $returnService =  response::json(array('success'=> 'Email successfully sent!'));
+            return $returnService;
+        }
+
+    }
+
+    public function import($data)
+    {
+        try {
+
+            if($data->file('imported-file'))
+            {
+                    $path = $data->file('imported-file')->getRealPath();
+                    $data = Excel::load($path, function($reader) {
+                })->get();
+    
+                if(!empty($data) && $data->count())
+            {
+            $data = $data->toArray();
+            for($i=0;$i<count($data);$i++)
+            {
+                $this->validator->with($data[$i])->passesOrFail(ValidatorInterface::RULE_CREATE);
+                $dataImported[] = $data[$i];
+            }
+                }
+              
+
+            Event::insert($dataImported);
+            }
+                     
+            $returnService = redirect()->back()->with('success', 'Import Success!!!');
+            return $returnService;
+
+        } catch (ValidatorException $e) {  
+            $returnService = redirect()->back()->withErrors($e->getMessageBag())->withInput();
             return $returnService;
         }
 

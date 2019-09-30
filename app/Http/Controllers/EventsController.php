@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EventCreateRequest;
 use App\Http\Requests\EventUpdateRequest;
 use App\Mail\SendInvitation;
+use App\Models\Event;
 use App\Repositories\EventRepository;
 use App\Services\EventService;
 use App\Validators\EventValidator;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Response;
+use Excel;
+use Carbon\Carbon;
 
 /**
  * Class EventsController.

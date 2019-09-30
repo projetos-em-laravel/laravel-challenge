@@ -24,8 +24,8 @@ class EventValidator extends LaravelValidator
             'description'       => 'required|string|max:255',
             'start_date'        => 'required|date_format:Y-m-d',
             'end_date'          => 'required|date_format:Y-m-d|after_or_equal:start_date',
-            'start_time'        => 'required|date_format:H:i',
-            'end_time'          => 'required|date_format:H:i',
+            'start_time'        => 'required',
+            'end_time'          => 'required',
         ],
         ValidatorInterface::RULE_UPDATE => [
             'title'             => 'required|string|max:255',

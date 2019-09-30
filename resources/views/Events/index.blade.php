@@ -8,19 +8,46 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <!--Open nav/-->
+
+                    <!-- Message Success-->
+                    @if( session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success')}}
+                        </div>
+                    @endif
+
+                    <!-- Message Erros-->
+                    @if( isset($errors) && count($errors) > 0)
+                        <div class="box">
+                            <div id="test">
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Fechar">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="alert alert-danger" >
+                                @foreach( $errors->all() as $error )
+                                    <p>{{$error}}</p>
+                                @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#today">Today events</a></li>
-                        <li><a data-toggle="tab" href="#nextFive">Events for the next 5 days</a></li>
-                        <li><a data-toggle="tab" href="#all">All events</a></li>
+                        <li class="active today"><a data-toggle="tab" href="#today">Today events</a></li>
+                        <li class="nextFive"><a data-toggle="tab" href="#nextFive">Events for the next 5 days</a></li>
+                        <li class="all"><a data-toggle="tab" href="#all">All events</a></li>
                     </ul>
                     
                     <div class="tab-content">
 
                         <!--Open Today events-->
                         <div id="today" class="tab-pane fade in active">
-                            <h3>Today events</h3>
-                            <a href="" class="btn btn-warning">Import CSV</a>
                             
+                            <br>
+                            <a class="btn btn-primary" href="{{ route('events.exportToday')}}">Export CSV</a>
+                        
                             <table class="table table-striped table-inverse table-responsive" id="todayEvents">
                                 <thead class="thead-inverse">
                                     <tr>
@@ -57,8 +84,10 @@
 
                         <!--Open Events for the next 5 days-->
                         <div id="nextFive" class="tab-pane fade">
-                            <h3>Events for the next 5 days</h3>
-                            <a href="" class="btn btn-warning">Import CSV</a>
+                            
+                            <br>
+                            <a class="btn btn-primary" href="{{ route('events.exportnextFive')}}">Export CSV</a>
+                            
 
                             <table class="table table-striped table-inverse table-responsive" id="nextFiveEvents">
                                 <thead class="thead-inverse">
@@ -95,8 +124,9 @@
 
                         <!--OPen All events-->
                         <div id="all" class="tab-pane fade">
-                            <h3>All events</h3>
-                            <a href="" class="btn btn-warning">Import CSV</a>
+                            
+                            <br>
+                            <a class="btn btn-primary" href="{{ route('events.exportAll')}}">Export CSV</a>
 
                             <table class="table table-striped table-inverse table-responsive" id="allEvents">
                                 <thead class="thead-inverse">
@@ -131,6 +161,19 @@
                             </table>
                         </div>
                         <!--Close All events-->
+                
+                        <div class="col-md-12">
+                            <form action="{{url('/import')}}" method="post" enctype="multipart/form-data">
+                                {{csrf_field()}}
+                                <div class="row form-group">
+                                    <input type="file" class="form-control-file" name="imported-file" id="imported-csv"/>
+                                </div>
+                                <div class="row">
+                                    <button class="btn btn-warning" type="submit">Import CSV</button>
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -158,29 +201,6 @@
 <!-- Send Inite email-->
 <script type="text/javascript" src="{{ asset('custom/js/sendEmail.js') }}"></script>
         
-<script>
-    var id;
- $(document).on('click', '.deleteEventForModal', function() { 
-    
-        $('#eventId').text($(this).data('id'));
-        $('#title').text($(this).data('title'));
-        id = $(this).data('id');
-        
-});
-
-$('.modal-footer').on('click', '.deleteEventInModal', function() {
-        
-        
-        $.ajax({
-            type: 'DELETE',
-            url: '/events/' + id,
-            data: {
-                '_token': $('input[name=_token]').val(),
-            },
-            success: function(data) {
-                $('.itemEvent' + data['id']).remove();
-            }
-        });
-    });
-</script>
+<!-- Delete Evento ajax-->
+<script type="text/javascript" src="{{ asset('custom/js/delete-event.js') }}"></script>
 @endpush

@@ -9,14 +9,13 @@
             <div class="modal-body">
                 <h3>Do you really want to delete the <i id="title"></i> event?</h3>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-                <form>
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <button type="button" class="btn btn-danger deleteEventInModal" data-dismiss="modal">Delete event</button>
-                </form>
-            </div>
+            <form>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  <button type="button" class="btn btn-danger deleteEventInModal" data-dismiss="modal">Delete event</button>
+              </div>
+            </form>  
           </div>
         </div>
       </div>
