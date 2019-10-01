@@ -41,6 +41,23 @@ MAIL_ENCRYPTION=tls
 
 As any new [Laravel][lararel] install there is a couple steps to perform in order to get it going. If you are nunfamiliar follow [these instrunctions](https://laravel.com/docs/5.4/#web-server-configuration)
 
+## Create a database
+Create your database and configure the .env file with the information:
+
+## Create your migration
+Run the code below to create your tables in your database:
+
+```
+php artisan migrate
+```
+
+## Feed the database
+Run the code below to feed your database tables:
+
+```
+php artisan db:seed
+```
+
 ### Run the Application
 
 The simplest way to run the app is through the `artisan server`, which relies on the built-in PHP server.
@@ -52,7 +69,6 @@ php artisan serve
 
 You can then browse to [http://localhost:8000](http://localhost:8000) in your web browser.
 
-## Challenge Requirements
 
-The Challenge app requirements will be sent by email, for they change accordinly to the opportunity
+
 
