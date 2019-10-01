@@ -9,6 +9,8 @@ use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 use App\Repositories\UserRepository;
 use App\Validators\UserValidator;
+use Validator;
+use Illuminate\Support\Facades\Auth;
 
 class UserService{
     private $repository;
@@ -23,10 +25,15 @@ class UserService{
     public function update($data, $id)
     {
 
-        try {
-
-            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
-            
+            $rules = array(
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,' .Auth::user()->id,
+                'password' => 'required|string|min:6|confirmed',
+            );
+    
+            $validator = Validator::make($data, $rules);$this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+           
+            if (!$validator->fails()){
             $user = $this->repository->update([
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -40,9 +47,9 @@ class UserService{
         
             $returnService = redirect()->back()->with('success', $response['message']);
             return $returnService;
-        } catch (ValidatorException $e) {
+        } else {
 
-            $returnService = redirect()->back()->withErrors($e->getMessageBag())->withInput();
+            $returnService = redirect()->back()->withErrors($validator->getMessageBag()->toarray())->withInput();
             return $returnService;
         }
     }

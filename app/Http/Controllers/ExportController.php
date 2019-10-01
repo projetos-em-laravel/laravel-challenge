@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\EventService;
 use App\Models\Event;
 use Excel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\EventRepository;
+use App\Services\ExportService;
 
 class ExportController extends Controller
 {
     protected $service;
     protected $repository;
 
-    public function __construct(EventRepository $repository, EventService $service)
+    public function __construct(EventRepository $repository, ExportService $service)
     {
         $this->repository = $repository;
         $this->service    = $service;

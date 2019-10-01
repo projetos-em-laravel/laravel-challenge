@@ -67,12 +67,15 @@
                                             <td>{{$eventToday->end_date}} at {{$eventToday->end_time}}</td>
                                             <td>
                                                 <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-success eventSend" data-toggle="modal" data-target="#newSend" data-title='{{$eventToday->title}}' data-description='{{$eventToday->description}}' data-startdate='{{$eventToday->start_date}}' data-starttime='{{$eventToday->start_time}}' data-enddate='{{$eventToday->end_date}}' data-endtime='{{$eventToday->end_time}}' >
-                                                    Send invitation
+                                                <button type="button" class="btn btn-success eventSend file-caption-name" data-toggle="modal" data-target="#newSend" data-title='{{$eventToday->title}}' data-description='{{$eventToday->description}}' data-startdate='{{$eventToday->start_date}}' data-starttime='{{$eventToday->start_time}}' data-enddate='{{$eventToday->end_date}}' data-endtime='{{$eventToday->end_time}}' >
+                                                    <i class="glyphicon glyphicon-send"></i>
+                                                    <span></span>
                                                 </button>
-                                                <a href="{{ route('events.edit', $eventToday->id) }}" class="btn btn-primary">Edit</a>
+                                                <a href="{{ route('events.edit', $eventToday->id) }}" class="btn btn-primary">
+                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                </a>
                                                 <button type="button" class="btn btn-danger deleteEventForModal" data-toggle="modal" data-target="#deleteEvent" data-id='{{$eventToday->id}}' data-title='{{$eventToday->title}}'>
-                                                    Delete
+                                                    <i class="glyphicon glyphicon-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -109,11 +112,14 @@
                                             <td>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-success eventSend" data-toggle="modal" data-target="#newSend" data-title='{{$eventNextFiveDays->title}}' data-description='{{$eventNextFiveDays->description}}' data-startdate='{{$eventNextFiveDays->start_date}}' data-starttime='{{$eventNextFiveDays->start_time}}' data-enddate='{{$eventNextFiveDays->end_date}}' data-endtime='{{$eventNextFiveDays->end_time}}' >
-                                                    Send invitation
+                                                    <i class="glyphicon glyphicon-send"></i>
+                                                    <span></span>
                                                 </button>
-                                                <a href="{{ route('events.edit', $eventNextFiveDays->id) }}" class="btn btn-primary">Edit</a>
+                                                <a href="{{ route('events.edit', $eventNextFiveDays->id) }}" class="btn btn-primary">
+                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                </a>
                                                 <button type="button" class="btn btn-danger deleteEventForModal" data-toggle="modal" data-target="#deleteEvent" data-id='{{$eventNextFiveDays->id}}' data-title='{{$eventNextFiveDays->title}}'>
-                                                    Delete
+                                                    <i class="glyphicon glyphicon-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -148,11 +154,14 @@
                                             <td>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-success eventSend" data-toggle="modal" data-target="#newSend" data-title='{{$eventAll->title}}' data-description='{{$eventAll->description}}' data-startdate='{{$eventAll->start_date}}' data-starttime='{{$eventAll->start_time}}' data-enddate='{{$eventAll->end_date}}' data-endtime='{{$eventAll->end_time}}' >
-                                                    Send invitation
+                                                    <i class="glyphicon glyphicon-send"></i>
+                                                    <span></span>
                                                 </button>
-                                                <a href="{{ route('events.edit', $eventAll->id) }}" class="btn btn-primary">Edit</a>
+                                                <a href="{{ route('events.edit', $eventAll->id) }}" class="btn btn-primary">
+                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                </a>
                                                 <button type="button" class="btn btn-danger deleteEventForModal" data-toggle="modal" data-target="#deleteEvent" data-id='{{$eventAll->id}}' data-title='{{$eventAll->title}}'>
-                                                    Delete
+                                                    <i class="glyphicon glyphicon-trash"></i>
                                                 </button>                                            
                                             </td>
                                         </tr>
@@ -203,4 +212,6 @@
         
 <!-- Delete Evento ajax-->
 <script type="text/javascript" src="{{ asset('custom/js/delete-event.js') }}"></script>
+
+
 @endpush

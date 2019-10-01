@@ -9,11 +9,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\SendInvitation;
-use Validator;
-use Response;
-use Excel;
 
 class EventService{
 
@@ -91,68 +86,5 @@ class EventService{
             return $returnService;
         }
     }
-
-    public function send($data){
-
-        $title        = $data->title;
-        $description  = $data->description;
-        $start_date   = $data->start_date;
-        $start_time   = $data->start_time;
-        $end_date     = $data->end_date;
-        $end_time     = $data->end_time;
-        $email        = $data->email;
-        $email_body   = $data->email_body;
-
-        $rules = array(
-            'email' => 'required|email',
-            'email_body' => 'required',
-        );
-
-        $validator = Validator::make($data->all(), $rules);
-        
-        if ($validator->fails()){
-            $returnService =  response::json(array('errors'=> $validator->getMessageBag()->toarray()));
-            return $returnService;
-        }else{
-            // Enviando o e-mail
-            Mail::to($email)->send(new SendInvitation( $title, $description, $start_date, $start_time, $end_date, $end_time, $email, $email_body ));
-            $returnService =  response::json(array('success'=> 'Email successfully sent!'));
-            return $returnService;
-        }
-
-    }
-
-    public function import($data)
-    {
-        try {
-
-            if($data->file('imported-file'))
-            {
-                    $path = $data->file('imported-file')->getRealPath();
-                    $data = Excel::load($path, function($reader) {
-                })->get();
     
-                if(!empty($data) && $data->count())
-            {
-            $data = $data->toArray();
-            for($i=0;$i<count($data);$i++)
-            {
-                $this->validator->with($data[$i])->passesOrFail(ValidatorInterface::RULE_CREATE);
-                $dataImported[] = $data[$i];
-            }
-                }
-              
-
-            Event::insert($dataImported);
-            }
-                     
-            $returnService = redirect()->back()->with('success', 'Import Success!!!');
-            return $returnService;
-
-        } catch (ValidatorException $e) {  
-            $returnService = redirect()->back()->withErrors($e->getMessageBag())->withInput();
-            return $returnService;
-        }
-
-    }
 }

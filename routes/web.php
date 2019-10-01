@@ -11,19 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('', 'EventsController@index')->middleware('auth');
+Route::group(['middleware' => 'auth'], function() {
+    Route::resource('events', 'EventsController');
+    Route::post('/send', 'SendController@send')->name('events.send');
 });
 
-
 Route::group(['middleware' => 'auth'], function() {
-    Route::resource('/events', 'EventsController');
-    Route::post('/send', 'EventsController@send')->name('events.send');
     Route::get('/exportAll', 'ExportController@exportAll')->name('events.exportAll');
     Route::get('/exportToday', 'ExportController@exportToday')->name('events.exportToday');
     Route::get('/exportnextFive', 'ExportController@exportnextFive')->name('events.exportnextFive');
     Route::post('/import', 'ExportController@import')->name('events.import');
+    
 });
+
 
 Route::group(['middleware' => 'auth'], function() {
     Route::resource('/user', 'UsersController');

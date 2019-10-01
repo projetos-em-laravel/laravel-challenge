@@ -4,17 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EventCreateRequest;
 use App\Http\Requests\EventUpdateRequest;
-use App\Mail\SendInvitation;
-use App\Models\Event;
 use App\Repositories\EventRepository;
 use App\Services\EventService;
 use App\Validators\EventValidator;
-use Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Response;
-use Excel;
-use Carbon\Carbon;
 
 /**
  * Class EventsController.
@@ -36,10 +30,11 @@ class EventsController extends Controller
 
     public function index()
     {
+        // Return Today Events
         $eventsToday = $this->service->eventsToday(Auth::user()->id);
-
+        // Return Events Next Five Days
         $eventsNextFiveDays = $this->service->eventsNextFiveDays(Auth::user()->id);
-                        
+        // Return All Events          
         $eventsAll = $this->repository->findWhere(['user_id' =>  Auth::user()->id]);
         
         return view('events.index')->with(['eventsToday' => $eventsToday , 'eventsNextFiveDays' => $eventsNextFiveDays, 'eventsAll' => $eventsAll]);
@@ -76,13 +71,6 @@ class EventsController extends Controller
     {
         $returnService = $this->service->update($request, $id);
         return $returnService;
-    }
-
-    public function send(Request $request)
-    {
-        $returnService = $this->service->send($request);
-        return $returnService;
-
     }
 
     public function destroy($id)
