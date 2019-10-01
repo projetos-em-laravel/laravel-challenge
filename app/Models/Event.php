@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -27,11 +28,10 @@ class Event extends Model implements Transformable
     protected $hidden = [
         'id',
     ];
+
+    
     public function User(){
         return $this-HasOne('Event::class');
     }
 
-    public function getStartTime($value){
-        return Carbon::createFromFormat('H:i', $value);
-    }
 }

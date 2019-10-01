@@ -63,8 +63,8 @@
                                         <tr class="{{'itemEvent'.$eventToday->id}}">
                                             <td scope="row">{{$eventToday->title}}</td>
                                             <td>{{$eventToday->description}}</td>
-                                            <td>{{$eventToday->start_date}} at {{$eventToday->start_time}}</td>
-                                            <td>{{$eventToday->end_date}} at {{$eventToday->end_time}}</td>
+                                            <td>{{date( 'M d, Y' , strtotime($eventToday->start_date))}} at {{date( 'H:i' , strtotime($eventToday->start_time))}}</td>
+                                            <td>{{date( 'M d, Y' , strtotime($eventToday->end_date))}} at {{date( 'H:i' , strtotime($eventToday->end_time))}}</td>
                                             <td>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-success eventSend file-caption-name" data-toggle="modal" data-target="#newSend" data-title='{{$eventToday->title}}' data-description='{{$eventToday->description}}' data-startdate='{{$eventToday->start_date}}' data-starttime='{{$eventToday->start_time}}' data-enddate='{{$eventToday->end_date}}' data-endtime='{{$eventToday->end_time}}' >
@@ -107,8 +107,8 @@
                                         <tr class="{{'itemEvent'.$eventNextFiveDays->id}}">
                                             <td scope="row">{{$eventNextFiveDays->title}}</td>
                                             <td>{{$eventNextFiveDays->description}}</td>
-                                            <td>{{$eventNextFiveDays->start_date}} at {{$eventNextFiveDays->start_time}}</td>
-                                            <td>{{$eventNextFiveDays->end_date}} at {{$eventNextFiveDays->end_time}}</td>
+                                            <td>{{date( 'M d, Y' , strtotime($eventNextFiveDays->start_date))}} at {{date( 'H:i' , strtotime($eventNextFiveDays->start_time))}}</td>
+                                            <td>{{date( 'M d, Y' , strtotime($eventNextFiveDays->end_date))}} at {{date( 'H:i' , strtotime($eventNextFiveDays->end_time))}}</td>
                                             <td>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-success eventSend" data-toggle="modal" data-target="#newSend" data-title='{{$eventNextFiveDays->title}}' data-description='{{$eventNextFiveDays->description}}' data-startdate='{{$eventNextFiveDays->start_date}}' data-starttime='{{$eventNextFiveDays->start_time}}' data-enddate='{{$eventNextFiveDays->end_date}}' data-endtime='{{$eventNextFiveDays->end_time}}' >
@@ -149,8 +149,8 @@
                                         <tr class="{{'itemEvent'.$eventAll->id}}">
                                             <td scope="row">{{$eventAll->title}}</td>
                                             <td>{{$eventAll->description}}</td>
-                                            <td>{{$eventAll->start_date}} at {{$eventAll->start_time}}</td>
-                                            <td>{{$eventAll->end_date}} at {{$eventAll->end_time}}</td>
+                                            <td>{{date( 'M d, Y' , strtotime($eventAll->start_date))}} at {{date( 'H:i' , strtotime($eventAll->start_time))}}</td>
+                                            <td>{{date( 'M d, Y' , strtotime($eventAll->end_date))}} at {{date( 'H:i' , strtotime($eventAll->end_time))}}</td>
                                             <td>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-success eventSend" data-toggle="modal" data-target="#newSend" data-title='{{$eventAll->title}}' data-description='{{$eventAll->description}}' data-startdate='{{$eventAll->start_date}}' data-starttime='{{$eventAll->start_time}}' data-enddate='{{$eventAll->end_date}}' data-endtime='{{$eventAll->end_time}}' >
@@ -197,9 +197,9 @@
 
 @push('css')
 <style>
-.actions{
-    width:130px;
-}
+    .actions{
+        width:130px;
+    }
 </style>
 
 <!--Datatable need this link extern-->

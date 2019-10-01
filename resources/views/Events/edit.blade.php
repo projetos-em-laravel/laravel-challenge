@@ -45,7 +45,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('start_date') ? ' has-error' : '' }}">
-                            <label for="start_date" class="col-md-4 control-label">Start datetime</label>
+                            <label for="start_date" class="col-md-4 control-label">Start date</label>
 
                             <div class="col-md-6">
                                 <input id="start_date" type="date" class="form-control" name="start_date" value="{{ old('start_date', $event->start_date) }}" required>
