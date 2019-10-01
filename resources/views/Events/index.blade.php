@@ -55,7 +55,7 @@
                                         <th>Description</th>
                                         <th>Start date</th>
                                         <th>End date</th>
-                                        <th>Actions</th>
+                                        <th class="actions">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -99,7 +99,7 @@
                                         <th>Description</th>
                                         <th>Start date</th>
                                         <th>End date</th>
-                                        <th>Actions</th>
+                                        <th class="actions">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -141,7 +141,7 @@
                                         <th>Description</th>
                                         <th>Start date</th>
                                         <th>End date</th>
-                                        <th>Actions</th>
+                                        <th class="actions">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -196,6 +196,12 @@
 @endsection
 
 @push('css')
+<style>
+.actions{
+    width:130px;
+}
+</style>
+
 <!--Datatable need this link extern-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href=" {{ asset('vendor/css/dataTables.bootstrap.min.css') }}">
@@ -212,6 +218,5 @@
         
 <!-- Delete Evento ajax-->
 <script type="text/javascript" src="{{ asset('custom/js/delete-event.js') }}"></script>
-
 
 @endpush

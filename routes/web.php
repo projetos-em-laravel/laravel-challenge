@@ -11,6 +11,8 @@
 |
 */
 
+
+
 Route::get('', 'EventsController@index')->middleware('auth');
 Route::group(['middleware' => 'auth'], function() {
     Route::resource('events', 'EventsController');
@@ -29,9 +31,6 @@ Route::group(['middleware' => 'auth'], function() {
 Route::group(['middleware' => 'auth'], function() {
     Route::resource('/user', 'UsersController');
 });
-
-
-
 
 Auth::routes();
 
